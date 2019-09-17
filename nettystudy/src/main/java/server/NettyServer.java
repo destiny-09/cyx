@@ -20,8 +20,8 @@ public class NettyServer {
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                       @Override
-                      protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
-
+                      protected void initChannel(NioSocketChannel nsc) throws Exception {
+                          nsc.pipeline().addLast(new FirstServerHandler());
                       }
                   }
                 );
