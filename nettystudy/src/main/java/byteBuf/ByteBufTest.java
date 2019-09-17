@@ -33,7 +33,7 @@ public class ByteBufTest {
 
 
         // set 方法不改变读写指针
-        buffer.setByte(buffer.readableBytes() + 1, 0);
+        buffer.setByte(buffer.readableBytes() + 1, 4);
         print("setByte()", buffer);
 
         // read 方法改变读指针
