@@ -5,6 +5,7 @@ import io.netty.buffer.ByteBufAllocator;
 
 public class ByteBufTest {
     public static void main(String[] args) {
+
         ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer(9, 100);
 
         print("allocate ByteBuf(9, 100)", buffer);
@@ -33,7 +34,9 @@ public class ByteBufTest {
 
 
         // set 方法不改变读写指针
-        buffer.setByte(buffer.readableBytes() + 1, 4);
+        System.out.println("before setByte() buffer:"+buffer.getByte(1));
+        buffer.setByte(1, 4);
+        System.out.println("after setByte() buffer:"+buffer.getByte( 1));
         print("setByte()", buffer);
 
         // read 方法改变读指针
@@ -56,4 +59,28 @@ public class ByteBufTest {
         System.out.println("maxWritableBytes(): " + buffer.maxWritableBytes());
         System.out.println();
     }
+
+    private static void testSlice(){
+        ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer(9, 100);
+        buffer.writeBytes(new byte[]{1,2,3,4});
+        buffer.readByte();
+        print("write,read",buffer);
+        ByteBuf slice = buffer.slice();
+        print("slice",slice);
+
+        slice.writerIndex(0);
+        slice.writeByte(11);
+        System.out.println("readByte-slice:"+slice.readByte());
+        System.out.println("readByte-buffer:"+buffer.readByte());
+    }
+
+    private static void testDuplicate(){
+        ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer(9, 100);
+        buffer.writeBytes(new byte[]{1,2,3,4});
+        buffer.readByte();
+        print("write,read",buffer);
+        ByteBuf duplicate = buffer.duplicate();
+        print("duplicate",duplicate);
+    }
+
 }
