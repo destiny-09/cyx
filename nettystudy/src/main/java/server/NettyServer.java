@@ -1,5 +1,12 @@
 package server;
 
+import handler.LifeCyCleTestHandler;
+import handler.inBound.InBoundHandlerA;
+import handler.inBound.InBoundHandlerB;
+import handler.inBound.InBoundHandlerC;
+import handler.outBound.OutBoundHandlerA;
+import handler.outBound.OutBoundHandlerB;
+import handler.outBound.OutBoundHandlerC;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -21,7 +28,15 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                       @Override
                       protected void initChannel(NioSocketChannel nsc) throws Exception {
-                          nsc.pipeline().addLast(new FirstServerHandler());
+                          nsc.pipeline().addLast(new InBoundHandlerA());
+                          nsc.pipeline().addLast(new InBoundHandlerB());
+                          nsc.pipeline().addLast(new InBoundHandlerC());
+
+                          nsc.pipeline().addLast(new OutBoundHandlerA());
+                          nsc.pipeline().addLast(new OutBoundHandlerB());
+                          nsc.pipeline().addLast(new OutBoundHandlerC());
+
+//                          nsc.pipeline().addLast(new LifeCyCleTestHandler());
                       }
                   }
                 );
