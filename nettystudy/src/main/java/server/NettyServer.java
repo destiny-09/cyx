@@ -12,6 +12,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 public class NettyServer {
 
@@ -28,15 +29,9 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                       @Override
                       protected void initChannel(NioSocketChannel nsc) throws Exception {
-                          nsc.pipeline().addLast(new InBoundHandlerA());
-                          nsc.pipeline().addLast(new InBoundHandlerB());
-                          nsc.pipeline().addLast(new InBoundHandlerC());
-
-                          nsc.pipeline().addLast(new OutBoundHandlerA());
-                          nsc.pipeline().addLast(new OutBoundHandlerB());
-                          nsc.pipeline().addLast(new OutBoundHandlerC());
-
-//                          nsc.pipeline().addLast(new LifeCyCleTestHandler());
+                          //拆包器
+//                          nsc.pipeline().addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4));
+                          nsc.pipeline().addLast(new FirstServerHandler());
                       }
                   }
                 );

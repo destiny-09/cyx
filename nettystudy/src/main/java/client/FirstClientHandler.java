@@ -16,9 +16,11 @@ public class FirstClientHandler extends ChannelInboundHandlerAdapter {
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("channelActive:客户端连接建立成功，发送消息给服务端");
         // 1. 获取数据
-        ByteBuf byteBuf = getByteBuf(ctx);
-        // 2. 写数据
-        ctx.channel().writeAndFlush(byteBuf);
+        for (int i=0;i<200;i++) {
+            ByteBuf byteBuf = getByteBuf(ctx);
+            // 2. 写数据
+            ctx.channel().writeAndFlush(byteBuf);
+        }
     }
 
 
@@ -27,9 +29,10 @@ public class FirstClientHandler extends ChannelInboundHandlerAdapter {
         ByteBuf buffer = ctx.alloc().buffer();
 
         // 2. 准备数据，指定字符串的字符集为 utf-8
-        byte[] bytes = "你好，服务端!".getBytes(Charset.forName("utf-8"));
+        byte[] bytes = "你好，服务端!请问什么是粘包什么又是拆包那?".getBytes(Charset.forName("utf-8"));
 
         // 3. 填充数据到 ByteBuf
+//        buffer.writeInt(bytes.length);
         buffer.writeBytes(bytes);
 
         return buffer;

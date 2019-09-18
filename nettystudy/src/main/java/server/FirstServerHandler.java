@@ -19,7 +19,7 @@ public class FirstServerHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf byteBuf = (ByteBuf)msg;
 
-        System.out.println("FirstServerHandler.channelRead:收到客户端消息:"+byteBuf.toString(Charset.forName("utf-8")));
+        System.out.println("收到客户端消息:"+byteBuf.toString(Charset.forName("utf-8")));
 
         ByteBuf byteBufRes = getByteBuf(ctx);
 
