@@ -11,6 +11,7 @@ import java.nio.charset.Charset;
  * @author
  */
 public class OutBoundHandlerC extends ChannelOutboundHandlerAdapter {
+    @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
         System.out.println("OutBoundHandlerC: " + ((ByteBuf)msg).toString(Charset.forName("utf-8")));
         super.write(ctx, msg, promise);
