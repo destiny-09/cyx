@@ -17,19 +17,20 @@ public class FirstClientHandler extends ChannelInboundHandlerAdapter {
         System.out.println("channelActive:客户端连接建立成功，发送消息给服务端");
         // 1. 获取数据
         for (int i=0;i<200;i++) {
-            ByteBuf byteBuf = getByteBuf(ctx);
+            ByteBuf byteBuf = getByteBuf(ctx,i);
             // 2. 写数据
             ctx.channel().writeAndFlush(byteBuf);
         }
     }
 
 
-    private ByteBuf getByteBuf(ChannelHandlerContext ctx) {
+    private ByteBuf getByteBuf(ChannelHandlerContext ctx,int i) {
         // 1. 获取二进制抽象 ByteBuf
         ByteBuf buffer = ctx.alloc().buffer();
 
         // 2. 准备数据，指定字符串的字符集为 utf-8
-        byte[] bytes = "你好，服务端!请问什么是粘包什么又是拆包那?".getBytes(Charset.forName("utf-8"));
+        String message = "你好，服务端!请问什么是粘包什么又是拆包那?" + i;
+        byte[] bytes = message.getBytes(Charset.forName("utf-8"));
 
         // 3. 填充数据到 ByteBuf
 //        buffer.writeInt(bytes.length);
